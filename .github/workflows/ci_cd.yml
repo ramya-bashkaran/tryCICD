@@ -20,13 +20,13 @@ jobs:
 
     - name: Create Backend Image
       run: |
-        cd tryCICD
+       
         cd BackEnd
         docker build -t backend-image1:latest .
 
     - name: Create Frontend Image
       run: |
-        cd tryCICD
+    
         cd FrontEnd
         docker build -t frontend-app1:latest .
 
