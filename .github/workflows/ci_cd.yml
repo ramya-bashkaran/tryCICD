@@ -16,18 +16,22 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 'v20.11.0'  
+        node-version: 'v20.11.0'
+
+    - name: Build EMSApplication with Maven
+      run: |
+        cd BackEnd
+        cd EMS
+        mvn clean package
 
     - name: Create Backend Image
       run: |
-       
         cd BackEnd
         cd EMS
         docker build -t backend-image1:latest .
 
     - name: Create Frontend Image
       run: |
-    
         cd FrontEnd
         cd web
         docker build -t frontend-app1:latest .
