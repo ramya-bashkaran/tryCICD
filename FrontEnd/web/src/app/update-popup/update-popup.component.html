@@ -1,0 +1,49 @@
+<!-- update-popup.component.html -->
+
+<div class="container">
+  <div class="testbox">
+    <form [formGroup]="updateForm" (ngSubmit)="onUpdateClick()">
+      <div class="banner">
+        <h1>DETAILS UPDATION FORM</h1>
+      </div>
+
+      <div class="item">
+        <p>Name</p>
+        <div class="name-item">
+          <input type="text" formControlName="firstName" placeholder="First" />
+          <input type="text" formControlName="lastName" placeholder="Last" />
+        </div>
+      </div>
+      <div class="item">
+        <p>Birth Date</p>
+        <input type="date" formControlName="dob" required/>
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="item">
+        <p>Department</p>
+        <select formControlName="department">
+          <option>I T</option>
+          <option>Finance</option>
+          <option>Research and development</option>
+          <option>Administration</option>
+          <option>Professional Services</option>
+          <option>Marketing</option>
+          <option>HR</option>
+          <option>Production</option>
+          <option>Sales</option>
+        </select>
+      </div>
+
+      <div class="item">
+        <p>Salary (in Rs)</p>
+        <input type="number" formControlName="salary" />
+      </div>
+
+      <div class="btn-block">
+        <button type="submit">Update</button>
+        <!-- Cancel button -->
+        <button type="button" (click)="onNoClick()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

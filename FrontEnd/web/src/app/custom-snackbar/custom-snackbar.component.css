@@ -1,0 +1,16 @@
+/* custom-snackbar.component.css */
+.custom-snackbar {
+
+    background-color: #333;
+    color:antiquewhite;
+    border-radius: 8px;
+    text-align: left;
+   font-size: 14px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  h3{
+    text-align: center;
+    color: aquamarine;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 18px;
+  }

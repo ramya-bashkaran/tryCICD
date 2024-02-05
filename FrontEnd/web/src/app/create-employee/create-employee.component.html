@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="testbox">
+    <form (ngSubmit)="onSubmit(employeeForm)" #employeeForm="ngForm">
+      <div class="banner">
+        <h1>EMPLOYEE APPLICATION FORM</h1>
+      </div>
+  
+      <div class="item">
+        <p>Name</p>
+        <div class="name-item">
+          <input type="text" name="firstName" placeholder="First" [(ngModel)]="employee.firstName" required />
+          <input type="text" name="lastName" placeholder="Last" [(ngModel)]="employee.lastName" required />
+        </div>
+      </div>
+
+        <div class="item">
+          <p>Birth Date</p>
+          <input type="date" name="dob" [(ngModel)]="employee.dob" required/>
+
+
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+  
+      <div class="item">
+        <p>Department</p>
+        <select name="department" [(ngModel)]="employee.department" required>
+          <option>I T</option>
+          <option>Finance</option>
+          <option>Research and development</option>
+          <option>Administration</option>
+          <option>Professional Services</option>
+          <option>Marketing</option>
+          <option>HR</option>
+          <option>Production</option>
+          <option>Sales</option>
+        </select>
+      </div>
+  
+      <div class="item">
+        <p>Salary (in Rs)</p>
+        <input type="number" name="salary" [(ngModel)]="employee.salary" required />
+      </div>
+  
+      <div class="btn-block">
+        <button type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
+  
+  
+

@@ -1,0 +1,42 @@
+<!-- navbar.component.html -->
+
+<div id="navbar">
+  <div class="menu-btn" (click)="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </div>
+  <!-- <div class="logo">
+    <i class="fas fa-users"></i>
+    <span>Employee Management System</span>
+  </div> -->
+  <div class="nav-icons" style="color: white; font-size: 1.2rem;">
+    <i class="fas fa-users"></i>
+    EMS
+</div>
+
+
+
+</div>
+
+<div id="sidebar" [class.open]="isSidebarOpen">
+  <!-- Sidebar content goes here -->
+  <div class="sidebar-content">
+    <a routerLink="home" routerLinkActive="active" class="nav-link"> <i class="fas fa-house-user"></i>
+       <span> &nbsp; &nbsp; Home</span>
+    </a>
+    <a routerLink="show-employee" routerLinkActive="active" class="nav-link"> <i class="fas fa-list"></i> 
+     <span> &nbsp; &nbsp; Employee List</span>
+    </a>
+    <a routerLink="create-employee" routerLinkActive="active" class="nav-link">  <i class="fas fa-address-book"></i>
+      <span>&nbsp; &nbsp;  Add Employee</span>
+    </a>
+    <a routerLink="search-employee" routerLinkActive="active" class="nav-link"> <i class="fab fa-searchengin"></i>
+      <span>&nbsp; &nbsp; Search Employee</span>
+    </a>
+    <a routerLink="update-employee" routerLinkActive="active" class="nav-link">  <i class="fas fa-pen-square"></i>
+      <span>&nbsp; &nbsp;  Update Employee</span>
+    </a>
+    <a routerLink="delete-employee" routerLinkActive="active" class="nav-link">   <i class="fas fa-trash"></i>
+      <span> &nbsp; &nbsp; Delete Employee</span>
+    </a>
+  </div>
+</div>
