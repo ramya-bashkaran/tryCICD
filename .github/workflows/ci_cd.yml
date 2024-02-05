@@ -13,6 +13,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Create Backend Image
+      run: |
+        cd BackEnd
+        docker build -t backend-image1:latest .
+
+    - name: Create Frontend Image
+      run: |
+        cd FrontEnd
+        docker build -t frontend-app1:latest .
+
+    - name: Pull Elasticsearch Image
+      run: |
+        docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
     - name: Set up Docker Compose
       run: |
         choco install docker-desktop
@@ -20,17 +34,20 @@ jobs:
         docker-compose -f docker-compose.yml pull
         docker-compose -f docker-compose.yml build
 
-    - name: Push Elasticsearch image to Docker Hub
+    - name: Push Elasticsearch Image to Docker Hub
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push docker.elastic.co/elasticsearch/elasticsearch:8.8.1
 
-    - name: Push Backend image to Docker Hub
+    - name: Push Backend Image to Docker Hub
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push backend-image1
 
-    - name: Push Frontend image to Docker Hub
+    - name: Push Frontend Image to Docker Hub
       run: |
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker push frontend-app1
+
+    - name: Deploying Stage
+      run: docker-compose -f docker-compose.yml up -d
