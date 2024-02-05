@@ -12,15 +12,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+          node-version: 'latest'
 
     - name: Create Backend Image
       run: |
-        cd BackEnd
+        cd tryCICD\BackEnd\Dockerfile
         docker build -t backend-image1:latest .
 
     - name: Create Frontend Image
       run: |
-        cd FrontEnd
+        cd tryCICD\FrontEnd\Dockerfile
         docker build -t frontend-app1:latest .
 
     - name: Pull Elasticsearch Image
