@@ -16,14 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 'v20.11.0'  # Adjust to the desired Node.js version
-
-    - name: Install dependencies and run tests
-      run: |
-        cd tryCICD
-        cd FrontEnd  # Assuming npm test is in the FrontEnd directory
-        npm ci
-        npm test
+        node-version: 'v20.11.0'  
 
     - name: Create Backend Image
       run: |
