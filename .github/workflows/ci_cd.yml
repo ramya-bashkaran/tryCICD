@@ -22,12 +22,14 @@ jobs:
       run: |
        
         cd BackEnd
+        cd EMS
         docker build -t backend-image1:latest .
 
     - name: Create Frontend Image
       run: |
     
         cd FrontEnd
+        cd web
         docker build -t frontend-app1:latest .
 
     - name: Pull Elasticsearch Image
