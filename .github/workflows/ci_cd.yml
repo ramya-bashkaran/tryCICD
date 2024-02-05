@@ -36,12 +36,12 @@ jobs:
     #     docker push itsme15/frontend-app1:latest
 
 
-    # - name: Create   Backend Image
-    #   run: |
-    #     cd BackEnd
-    #     cd EMS
-    #     docker build -t itsme15/backend-image1:latest .
+    - name: Create   Backend Image
+      run: |
+        cd BackEnd
+        cd EMS
+        docker build -t itsme15/backend-image1:latest .
 
-    # - name: Push Frontend Image to Docker Hub
-    #   run: |
-    #     docker push itsme15/backend-image1:latest
+    - name: Push Frontend Image to Docker Hub
+      run: |
+        docker push itsme15/backend-image1:latest
