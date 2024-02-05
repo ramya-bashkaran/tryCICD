@@ -1,1 +1,36 @@
+name: CI/CD Pipeline
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Compose
+      run: |
+        choco install docker-desktop
+        choco install docker-compose
+        docker-compose -f docker-compose.yml pull
+        docker-compose -f docker-compose.yml build
+
+    - name: Push Elasticsearch image to Docker Hub
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
+    - name: Push Backend image to Docker Hub
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push backend-image1
+
+    - name: Push Frontend image to Docker Hub
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker push frontend-app1
