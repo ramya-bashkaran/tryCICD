@@ -12,17 +12,29 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
       with:
-          node-version: 'latest'
+        node-version: 'v20.11.0'  # Adjust to the desired Node.js version
+
+    - name: Install dependencies and run tests
+      run: |
+        cd tryCICD
+        cd FrontEnd  # Assuming npm test is in the FrontEnd directory
+        npm ci
+        npm test
 
     - name: Create Backend Image
       run: |
-        cd tryCICD\BackEnd\Dockerfile
+        cd tryCICD
+        cd BackEnd
         docker build -t backend-image1:latest .
 
     - name: Create Frontend Image
       run: |
-        cd tryCICD\FrontEnd\Dockerfile
+        cd tryCICD
+        cd FrontEnd
         docker build -t frontend-app1:latest .
 
     - name: Pull Elasticsearch Image
