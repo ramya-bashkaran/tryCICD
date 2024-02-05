@@ -18,6 +18,21 @@ jobs:
       with:
         node-version: 'v20.11.0'
 
+
+    - name: Pull Elasticsearch Image
+      
+      run: |
+        docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
+    - name: Create Frontend Image
+      run: |
+        cd FrontEnd
+        cd web
+        docker build -t frontend-app1:latest .
+
+  
+
+
     - name: Build EMSApplication with Maven
       run: |
         cd BackEnd
@@ -30,16 +45,7 @@ jobs:
         cd EMS
         docker build -t backend-image1:latest .
 
-    - name: Create Frontend Image
-      run: |
-        cd FrontEnd
-        cd web
-        docker build -t frontend-app1:latest .
-
-    - name: Pull Elasticsearch Image
-      run: |
-        docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
-
+ 
     - name: Set up Docker Compose
       run: |
         choco install docker-desktop
