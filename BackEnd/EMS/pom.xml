@@ -70,7 +70,16 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.12.1</version> <!-- Use the latest version that supports Java 21 -->
+            <configuration>
+                <release>21</release> <!-- Set the appropriate Java version -->
+            </configuration>
+        </plugin>
 		</plugins>
+		
 	</build>
 
 </project>
