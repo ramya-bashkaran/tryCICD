@@ -29,8 +29,7 @@ jobs:
       run: |
         cd FrontEnd
         cd web
-        docker build -t frontend-app1:latest .
-
+        docker build -t itsme15/frontend-app1:latest .
 
     - name: Push Frontend Image to Docker Hub
       run: |
