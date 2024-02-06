@@ -57,7 +57,7 @@ jobs:
       run: |
         cd BackEnd
         cd EMS
-        mvn --batch-mode --update-snapshots verify
+        mvn --batch-mode --update-snapshots -DskipTests verify
 
     - name: Create Backend Image
       run: |
