@@ -10,38 +10,64 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 'v20.11.0'
-
+    
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-
-    # - name: Create Frontend Image
-    #   run: |
-    #     cd FrontEnd
-    #     cd web
-    #     docker build -t itsme15/frontend-app1:latest .
-
-    # - name: Push Frontend Image to Docker Hub
-    #   run: |
-    #     docker push itsme15/frontend-app1:latest
+        
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'v20.11.0'
 
 
-    - name: Create   Backend Image
+    - name: Create Frontend Image
+      run: |
+        cd FrontEnd
+        cd web
+        docker build -t itsme15/frontend-app1:latest .
+
+    - name: Push Frontend Image to Docker Hub
+      run: |
+        docker push itsme15/frontend-app1:latest
+
+
+    - name: display FrontEnd  image
+      run: docker images
+
+    # - name: elasticsearch image
+    #   run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
+      
+    - name: setting up java maven
+      uses: actions/setup-java@v4
+      with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+    - name: Build with Maven
+      run: |
+        cd BackEnd
+        cd EMS
+        mvn --batch-mode --update-snapshots verify
+
+    - name: Create Backend Image
       run: |
         cd BackEnd
         cd EMS
         docker build -t itsme15/backend-image1:latest .
 
-    - name: Push Frontend Image to Docker Hub
+    - name: Push Backend Image to Docker Hub
       run: |
         docker push itsme15/backend-image1:latest
+
+    - name: display  Backend  image
+      run: docker images
