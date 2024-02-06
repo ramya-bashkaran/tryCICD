@@ -42,8 +42,11 @@ jobs:
     - name: display FrontEnd  image
       run: docker images
 
-    # - name: elasticsearch image
-    #   run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    - name: elasticsearch image
+      run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
+    - name: Show elasticsearch image
+      run: docker images 
 
       
     - name: setting up java maven
