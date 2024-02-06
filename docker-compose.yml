@@ -20,8 +20,8 @@ services:
       - es_data:/usr/share/elasticsearch/data
 
   backend:
-    image: backend-image1
-    container_name: localhost1
+    image: itsme15/ems-backend  #backend-image1
+    container_name: BackendContainer #localhost1
     ports:
       - "8080:8080"
     environment:
@@ -37,8 +37,8 @@ services:
 
 
   frontend:
-    image: frontend-app1   #FRONTEND-APP1
-    container_name: angular-app  #ANGULAR-APP
+    image: itsme15/ems-frontend    #frontend-app1   #FRONTEND-APP1
+    container_name: frontendContainer #angular-app  #ANGULAR-APP
     ports:
       - "4200:4200"
     networks:
