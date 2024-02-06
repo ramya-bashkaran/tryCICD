@@ -32,14 +32,14 @@ jobs:
       run: |
         cd FrontEnd
         cd web
-        docker build -t itsme15/frontend-app1:latest .
+        docker build -t itsme15/ems-frontend:latest .
 
     - name: Push Frontend Image to Docker Hub
       run: |
-        docker push itsme15/frontend-app1:latest
+        docker push itsme15/ems-frontend:latest
 
 
-    - name: display FrontEnd  image
+    - name: Show FrontEnd  image
       run: docker images
 
     - name: elasticsearch image
@@ -66,11 +66,11 @@ jobs:
       run: |
         cd BackEnd
         cd EMS
-        docker build -t itsme15/backend-image1:latest .
+        docker build -t itsme15/ems-backend:latest .
 
     - name: Push Backend Image to Docker Hub
       run: |
-        docker push itsme15/backend-image1:latest
+        docker push itsme15/ems-backend:latest
 
-    - name: display  Backend  image
+    - name: Show Backend  image
       run: docker images
