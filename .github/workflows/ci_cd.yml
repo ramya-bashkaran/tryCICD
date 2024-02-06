@@ -25,32 +25,22 @@ jobs:
       with:
         node-version: 'v20.11.0'
 
-    - name: Check for frontend changes
-      id: frontend-changed
-      run: |
-        git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^FrontEnd/' || true
-        echo "::set-output name=changed::$(grep -c '^FrontEnd/' || true)"
-
-    - name: Check for backend changes
-      id: backend-changed
-      run: |
-        git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^BackEnd/' || true
-        echo "::set-output name=changed::$(grep -c '^BackEnd/' || true)"
-
     - name: Create Frontend Image
-      if: steps.frontend-changed.outputs.changed > 0
+      if: ${{ github.event_name == 'push' && contains(github.event.inputs.files, 'FrontEnd/web') }}
       run: |
-        cd FrontEnd/web
-        docker build -t itsme15/ems-frontend:latest .
-        docker push itsme15/ems-frontend:latest
+        cd FrontEnd
+        cd web
+        docker build -t itsme15/frontend-app1:latest .
+        docker push itsme15/frontend-app1:latest
 
     - name: Create Backend Image
-      if: steps.backend-changed.outputs.changed > 0
+      if: ${{ github.event_name == 'push' && contains(github.event.inputs.files, 'BackEnd') }}
       run: |
-        cd BackEnd/EMS
+        cd BackEnd
+        cd EMS
         mvn --batch-mode --update-snapshots -DskipTests verify
-        docker build -t itsme15/ems-backend:latest .
-        docker push itsme15/ems-backend:latest
+        docker build -t itsme15/backend-image1:latest .
+        docker push itsme15/backend-image1:latest
 
     - name: Display Docker images
       run: docker images
