@@ -26,12 +26,12 @@ jobs:
       run: docker-compose -f docker-compose.yml up -d
 
       
-    - name: Setting up java maven
-      uses: actions/setup-java@v4
-      with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
+    # - name: Setting up java maven
+    #   uses: actions/setup-java@v4
+    #   with:
+    #       java-version: '21'
+    #       distribution: 'temurin'
+    #       cache: maven
 
     # - name: Run unit tests
     #   run: mvn test --file ./BackEnd/EMS/pom.xml
@@ -56,10 +56,10 @@ jobs:
     - name: Show Backend  image
       run: docker images
       
-    - name: Setting up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 'v20.11.0'
+    # - name: Setting up Node.js
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: 'v20.11.0'
  
     - name: Create Frontend Image
       run: |
