@@ -34,37 +34,15 @@ jobs:
     - name: Run Elasticsearch container
       run: docker run -d --name elasticsearch -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch:8.8.1
 
-    - name: Check Elasticsearch container status
-      run: docker ps -a
-
     - name: Wait for Elasticsearch to start
-      run: sleep 50 # Adjust wait time as needed
+      run: sleep 30 # Adjust wait time as needed
 
-    - name: Check if Elasticsearch container is in the same network
-      run: docker inspect -f '{{.HostConfig.NetworkMode}}' elasticsearch
-      continue-on-error: true  # Continue with the workflow even if the check fails
-
-    - name: Check Elasticsearch health
-      run: |
-        for i in {1..5}; do
-          curl -s -f http://localhost:9200 && break
-          sleep 20
-        done
-
-    - name: Show Elasticsearch status
-      run: docker ps -a
-
-    - name: Setting up Java Maven
-      uses: actions/setup-java@v4
-      with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-
-    - name: Build Backend with Maven
+    - name: Set up Backend
       run: |
         cd BackEnd
         cd EMS
+        export ELASTICSEARCH_HOST=localhost
+        export ELASTICSEARCH_PORT=9200
         mvn --batch-mode --update-snapshots verify
 
     - name: Create Backend Image
@@ -76,8 +54,11 @@ jobs:
       run: |
         docker push itsme15/ems-backend:latest
 
-    - name: Show Backend image
-      run: docker images
+    - name: Set up Frontend
+      run: |
+        cd FrontEnd
+        cd web
+        # You can add frontend build commands here
 
     - name: Create Frontend Image
       run: |
@@ -87,5 +68,3 @@ jobs:
     - name: Push Frontend Image to Docker Hub
       run: |
         docker push itsme15/ems-frontend:latest
-    - name: Show Frontend image
-      run: docker images
