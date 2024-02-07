@@ -25,21 +25,24 @@ jobs:
       with:
         node-version: 'v20.11.0'
 
-    - name: Pull and Run Elasticsearch
-      run: |
-        docker run -d --name elasticsearch -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    - name: Pull Elasticsearch Docker image
+      run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
+    - name: Run Elasticsearch container
+      run: docker run -d --name elasticsearch -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+
+    - name: Check Elasticsearch container status
+      run: docker ps -a
 
     - name: Wait for Elasticsearch to start
-      run: |
-        sleep 30 # Adjust wait time as needed
+      run: sleep 30 # Adjust wait time as needed
 
     - name: Check Elasticsearch health
-      run: |
-        curl -XGET http://localhost:9200/_cluster/health
+      run: curl -XGET http://localhost:9200/_cluster/health
 
     - name: Show Elasticsearch status
-      run: |
-        docker ps -a
+      run: docker ps -a
+
 
     - name: Setting up Java Maven
       uses: actions/setup-java@v4
