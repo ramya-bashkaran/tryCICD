@@ -7,7 +7,7 @@ on:
  
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
  
     steps:
  
@@ -96,3 +96,10 @@ jobs:
       
     - name: Tear down Docker Compose
       run: docker-compose -f docker-compose.yml down
+
+      
+    - name: Set up Docker Compose
+      run: docker-compose -f docker-compose.yml up -d
+
+
+      
