@@ -60,14 +60,14 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-    - name: Run unit tests
-      run: mvn test --file ./BackEnd/EMS/pom.xml
+    # - name: Run unit tests
+    #   run: mvn test --file ./BackEnd/EMS/pom.xml
       
     - name: Build with Maven
       run: |
         cd BackEnd
         cd EMS
-        mvn -B package --file ./Backend/EMS/pom.xml
+        mvn --batch-mode --update-snapshots verify
  
     - name: Create Backend Image
       run: |
