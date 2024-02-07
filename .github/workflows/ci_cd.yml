@@ -26,33 +26,6 @@ jobs:
       run: docker-compose -f docker-compose.yml up -d
 
       
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 'v20.11.0'
- 
- 
-    - name: Create Frontend Image
-      run: |
-        cd FrontEnd
-        cd web
-        docker build -t itsme15/ems-frontend:latest .
- 
-    - name: Push Frontend Image to Docker Hub
-      run: |
-        docker push itsme15/ems-frontend:latest
- 
- 
-    - name: Show FrontEnd  image
-      run: docker images
- 
-    - name: elasticsearch image
-      run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
- 
-    - name: Show elasticsearch image
-      run: docker images
- 
-      
     - name: setting up java maven
       uses: actions/setup-java@v4
       with:
@@ -81,3 +54,34 @@ jobs:
  
     - name: Show Backend  image
       run: docker images
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'v20.11.0'
+ 
+ 
+    - name: Create Frontend Image
+      run: |
+        cd FrontEnd
+        cd web
+        docker build -t itsme15/ems-frontend:latest .
+ 
+    - name: Push Frontend Image to Docker Hub
+      run: |
+        docker push itsme15/ems-frontend:latest
+ 
+ 
+    - name: Show FrontEnd  image
+      run: docker images
+ 
+    # - name: elasticsearch image
+    #   run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+ 
+    # - name: Show elasticsearch image
+    #   run: docker images
+ 
+      
+      
+    - name: Tear down Docker Compose
+      run: docker-compose -f path/to/your/docker-compose.yml down
