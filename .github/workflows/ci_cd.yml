@@ -26,7 +26,7 @@ jobs:
       run: docker-compose -f docker-compose.yml up -d
 
       
-    - name: setting up java maven
+    - name: Setting up java maven
       uses: actions/setup-java@v4
       with:
           java-version: '21'
@@ -35,45 +35,42 @@ jobs:
 
     # - name: Run unit tests
     #   run: mvn test --file ./BackEnd/EMS/pom.xml
-      
-    - name: Build with Maven
-      if: ${{ contains(github.event.commits.*.added, 'BackEnd/EMS') || contains(github.event.commits.*.modified, 'BackEnd/EMS') }}
-      run: |
-        cd BackEnd/EMS
-        mvn --batch-mode --update-snapshots verify
+  
 
-    - name: Create Backend Image
-      if: ${{ contains(github.event.commits.*.added, 'BackEnd/EMS') || contains(github.event.commits.*.modified, 'BackEnd/EMS') }}
+    - name: Build with Maven
       run: |
-        cd BackEnd/EMS
-        docker build -t itsme15/ems-backend:latest .
+        cd BackEnd
+        cd EMS
+        mvn --batch-mode --update-snapshots verify
  
+    - name: Create Backend Image
+      run: |
+        cd BackEnd
+        cd EMS
+        docker build -t itsme15/ems-backend:latest .
+
     - name: Push Backend Image to Docker Hub
-      if: ${{ contains(github.event.commits.*.added, 'BackEnd/EMS') || contains(github.event.commits.*.modified, 'BackEnd/EMS') }}
       run: |
         docker push itsme15/ems-backend:latest
  
     - name: Show Backend  image
       run: docker images
       
-    - name: Set up Node.js
+    - name: Setting up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 'v20.11.0'
  
     - name: Create Frontend Image
-      if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
-        cd FRONTEND
-        cd WEB
+        cd FrontEnd
+        cd web
         docker build -t itsme15/ems-frontend:latest .
-
+ 
     - name: Push Frontend Image to Docker Hub
-      if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
-        cd FRONTEND
-        cd WEB
         docker push itsme15/ems-frontend:latest
+ 
 
     # - name: Debug If Condition
     #   run: echo "Condition result: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}"
@@ -82,12 +79,9 @@ jobs:
 
 
         
-    - name: Debug Commit Details
-      run: echo "${{ toJson(github.event.commits) }}"
+    # - name: Debug Commit Details
+    #   run: echo "${{ toJson(github.event.commits) }}"
 
-      
-  
- 
  
     - name: Show FrontEnd  image
       run: docker images
