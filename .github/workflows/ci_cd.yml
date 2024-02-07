@@ -64,13 +64,23 @@ jobs:
     - name: Create Frontend Image
       if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
-        cd FrontEnd/web
+        cd FRONTEND
+        cd WEB
         docker build -t itsme15/ems-frontend:latest .
- 
+
     - name: Push Frontend Image to Docker Hub
       if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
+        cd FRONTEND
+        cd WEB
         docker push itsme15/ems-frontend:latest
+
+    # - name: Debug If Condition
+    #   run: echo "Condition result: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}"
+
+
+
+
         
     - name: Debug Commit Details
       run: echo "${{ toJson(github.event.commits) }}"
