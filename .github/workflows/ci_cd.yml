@@ -1,64 +1,65 @@
 name: CI/CD Pipeline
-
+ 
 on:
   push:
     branches:
       - main
-
+ 
 jobs:
   Building:
     runs-on: ubuntu-latest
-
+ 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+ 
       - name: Setting up Java and Maven
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: 'maven'
-
+ 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 'v20.11.0'
-
+ 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           registry: docker.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
+ 
       - name: Set up Docker Compose
         run: docker-compose -f docker-compose.yml up -d
-
-      - name: Building backend image
+ 
+      - name: Build and push backend image
+        working-directory: ./BackEnd/EMS
         run: |
           mvn --batch-mode --update-snapshots verify
-          docker build -t itsme15/ems-backend:latest ./BackEnd/EMS
+          docker build -t itsme15/ems-backend:latest .
           docker push itsme15/ems-backend:latest
-
-      - name: Building frontend image
+ 
+      - name: Build and push frontend image
+        working-directory: ./FrontEnd/web
         run: |
-          docker build -t itsme15/ems-frontend:latest ./FrontEnd/web
+          docker build -t itsme15/ems-frontend:latest .
           docker push itsme15/ems-frontend:latest
-
+ 
       - name: Show Docker images
         run: docker images
-
+ 
       - name: Tear down Docker Compose
         run: docker-compose -f docker-compose.yml down
-
+ 
   Deploying:
     runs-on: self-hosted
     needs: Building
-
     steps:
       - uses: actions/checkout@v4
-
+ 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -66,14 +67,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Pull the newly created backend image
+           # Pull the newly created backend image
       - name: Pull backend image
         run: docker pull itsme15/ems-backend:latest
 
       # Pull the newly created frontend image
       - name: Pull frontend image
         run: docker pull itsme15/ems-frontend:latest
-
-      # Set up Docker Compose again
+ 
       - name: Set up Docker Compose again
         run: docker-compose -f docker-compose.yml up -d
