@@ -71,6 +71,10 @@ jobs:
       if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
         docker push itsme15/ems-frontend:latest
+        
+    - name: Debug Commit Details
+      run: echo "${{ toJson(github.event.commits) }}"
+
       
   
  
