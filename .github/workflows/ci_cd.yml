@@ -10,53 +10,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-    
     - name: Checkout code
       uses: actions/checkout@v2
-    
+
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        
+
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 'v20.11.0'
 
-
-    - name: Create Frontend Image
+    - name: Pull and Run Elasticsearch
       run: |
-        cd FrontEnd
-        cd web
-        docker build -t itsme15/ems-frontend:latest .
+        docker run -d --name elasticsearch -p 9200:9200 docker.elastic.co/elasticsearch/elasticsearch:8.8.1
 
-    - name: Push Frontend Image to Docker Hub
+    - name: Wait for Elasticsearch to start
       run: |
-        docker push itsme15/ems-frontend:latest
+        sleep 30 # Adjust wait time as needed
 
+    - name: Check Elasticsearch health
+      run: |
+        curl -XGET http://localhost:9200/_cluster/health
 
-    - name: Show FrontEnd  image
-      run: docker images
+    - name: Show Elasticsearch status
+      run: |
+        docker ps -a
 
-    - name: elasticsearch image
-      run: docker pull docker.elastic.co/elasticsearch/elasticsearch:8.8.1
-
-    - name: Show elasticsearch image
-      run: docker images 
-
-      
-    - name: setting up java maven
+    - name: Setting up Java Maven
       uses: actions/setup-java@v4
       with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
 
-    - name: Build with Maven
+    - name: Build Backend with Maven
       run: |
         cd BackEnd
         cd EMS
@@ -67,10 +59,20 @@ jobs:
         cd BackEnd
         cd EMS
         docker build -t itsme15/ems-backend:latest .
-
     - name: Push Backend Image to Docker Hub
       run: |
         docker push itsme15/ems-backend:latest
 
-    - name: Show Backend  image
+    - name: Show Backend image
+      run: docker images
+
+    - name: Create Frontend Image
+      run: |
+        cd FrontEnd
+        cd web
+        docker build -t itsme15/ems-frontend:latest .
+    - name: Push Frontend Image to Docker Hub
+      run: |
+        docker push itsme15/ems-frontend:latest
+    - name: Show Frontend image
       run: docker images
