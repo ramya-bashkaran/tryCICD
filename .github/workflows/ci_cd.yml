@@ -37,18 +37,19 @@ jobs:
     #   run: mvn test --file ./BackEnd/EMS/pom.xml
       
     - name: Build with Maven
+      if: ${{ contains(github.event.commits.*.added, 'BackEnd/EMS') || contains(github.event.commits.*.modified, 'BackEnd/EMS') }}
       run: |
-        cd BackEnd
-        cd EMS
+        cd BackEnd/EMS
         mvn --batch-mode --update-snapshots verify
- 
+
     - name: Create Backend Image
+      if: ${{ contains(github.event.commits.*.added, 'BackEnd/EMS') || contains(github.event.commits.*.modified, 'BackEnd/EMS') }}
       run: |
-        cd BackEnd
-        cd EMS
+        cd BackEnd/EMS
         docker build -t itsme15/ems-backend:latest .
  
     - name: Push Backend Image to Docker Hub
+      if: ${{ contains(github.event.commits.*.added, 'BackEnd/EMS') || contains(github.event.commits.*.modified, 'BackEnd/EMS') }}
       run: |
         docker push itsme15/ems-backend:latest
  
@@ -60,16 +61,18 @@ jobs:
       with:
         node-version: 'v20.11.0'
  
- 
     - name: Create Frontend Image
+      if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
-        cd FrontEnd
-        cd web
+        cd FrontEnd/web
         docker build -t itsme15/ems-frontend:latest .
  
     - name: Push Frontend Image to Docker Hub
+      if: ${{ contains(github.event.commits.*.added, 'FrontEnd/web') || contains(github.event.commits.*.modified, 'FrontEnd/web') }}
       run: |
         docker push itsme15/ems-frontend:latest
+      
+  
  
  
     - name: Show FrontEnd  image
