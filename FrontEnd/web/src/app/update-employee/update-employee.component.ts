@@ -21,28 +21,18 @@ export class UpdateEmployeeComponent {
   ) {}
 
   searchEmployee() {
-    this.employeeService.getEmployeeList().subscribe(
-      (data: any) => {
-        console.log('Fetched Data:', data);
-  
-        if (data && data.content && Array.isArray(data.content)) {
-          const employeeFound = data.content.find((employee: Employee) => employee.id === this.employeeId);
-          console.log('Employee Found:', employeeFound);
-  
-          if (employeeFound) {
-            this.employee = { ...employeeFound };
-            console.log('Employee:', this.employee);
-  
-            this.openUpdatePopup();
-          } else {
-            this.snackBar.open('No employee exists with the provided ID', 'Dismiss', { duration: 3000 });
-          }
+    this.employeeService.getEmployeeById(this.employeeId).subscribe(
+      (employee: Employee) => {
+        if (employee) {
+          this.employee = employee;
+          this.openUpdatePopup();
         } else {
-          console.error('Invalid data format:', data);
+          this.snackBar.open('No employee exists with the provided ID', 'Dismiss', { duration: 3000 });
         }
       },
       error => {
-        console.error('Error fetching employees:', error);
+        console.error('Error fetching employee:', error);
+        this.snackBar.open('Error fetching employee details. Please try again.', 'Dismiss', { duration: 3000 });
       }
     );
   }

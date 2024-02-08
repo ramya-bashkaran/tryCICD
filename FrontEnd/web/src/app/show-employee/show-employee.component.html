@@ -6,6 +6,16 @@
   <div class="table-container">
     
     <h1> LIST OF EMPLOYEES </h1>
+    <div class="sort-container">
+      <select [(ngModel)]="selectedSortCategory" class="sort-select">
+        <option value="salaryDesc">Highest to Lowest</option>
+        <option value="salaryAsc">Lowest to Highest</option>
+      </select>
+      
+      &nbsp; &nbsp;<button (click)="sortEmployeesBySelectedCategory()" class="sort-button">
+        Sort by Salary
+      </button>
+    </div>
     
     <table>
       <thead>
@@ -32,6 +42,17 @@
         
      </tbody>
     </table>
+<div class="NavigationPage"> 
+  
+  <button (click)="getPreviousPage()" class="prev-page-button">
+  <i class="fas fa-backward"></i> 
+</button>
+
+<!-- Font Awesome icon for next page -->
+<button (click)="getNextPage()" class="next-page-button">
+  <i class="fas fa-forward"></i> 
+</button></div>
+   
   </div>
 </body>
 

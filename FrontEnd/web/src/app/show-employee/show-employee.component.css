@@ -15,6 +15,45 @@ body {
     background-color: #d7d7d7;
     margin-top: 5%;
   }
+  .sort-container {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  
+  .sort-select {
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  .sort-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .sort-button:hover {
+    background-color: #66ad7c;
+  }
+  
+  .NavigationPage {
+    text-align: center; /* Center align the content */
+    margin-top: 20px; /* Add some top margin for spacing */
+  }
+  
+  
+  .NavigationPage button {
+    margin: 0 5px; /* Add some space between the buttons */
+    background-color: transparent; /* Set background color to transparent */
+    border: none; /* Remove border */
+    cursor: pointer; /* Set cursor to pointer on hover */
+  }
+  
+  .NavigationPage button:hover {
+    color: rgb(129, 213, 186); /* Change text color on hover */
+  }
   .table-container h1{
     font-size: 25px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;

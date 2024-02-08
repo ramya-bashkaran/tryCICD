@@ -1,13 +1,20 @@
 package com.example.EMS.controller;
+
 import com.example.EMS.model.Employee;
 import com.example.EMS.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/EMS/APP/Employee")
 public class EmployeeController {
 
@@ -25,9 +32,41 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public Iterable<Employee> findAll() {
-        return employeeService.findAll();
+    public ResponseEntity<Page<Employee>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Page<Employee> employees = employeeService.findAllWithPagination(PageRequest.of(page, size));
+            return new ResponseEntity<>(employees, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+    @GetMapping("/sorted/asc")
+    public ResponseEntity<Page<Employee>> findAllSortedBySalaryAscending(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Page<Employee> employees = employeeService.findAllSortedBySalary(PageRequest.of(page, size, Sort.by("salary").ascending()));
+            return new ResponseEntity<>(employees, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/sorted/desc")
+    public ResponseEntity<Page<Employee>> findAllSortedBySalaryDescending(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Page<Employee> employees = employeeService.findAllSortedBySalary(PageRequest.of(page, size, Sort.by("salary").descending()));
+            return new ResponseEntity<>(employees, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @PutMapping("/{id}")
     public Employee update(@PathVariable String id, @RequestBody Employee employee) {

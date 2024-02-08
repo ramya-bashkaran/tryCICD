@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -18,11 +18,25 @@ export class EmployeeService {
     return this.httpClient.get<Employee[]>(`${this.baseURL}`);
   }
 
+  public getEmployeeList1(page: number): Observable<Employee[]> {
+    // Construct query parameters for pagination
+    const params = new HttpParams().set('page', page.toString());
+    // Send GET request with query parameters
+    return this.httpClient.get<Employee[]>(`${this.baseURL}`, { params });
+  }
+
   public getEmployeeById(employeeId: string): Observable<Employee> {
     const url = `${this.baseURL}/${employeeId}`;
     return this.httpClient.get<Employee>(url);
   }
 
+  sortEmployeesBySalaryAscending(page: number, size: number): Observable<any> {
+    return this.httpClient.get(`${this.baseURL}/sorted/asc?page=${page}&size=${size}`);
+  }
+
+  sortEmployeesBySalaryDescending(page: number, size: number): Observable<any> {
+    return this.httpClient.get(`${this.baseURL}/sorted/desc?page=${page}&size=${size}`);
+  }
   public createEmployee(employee: Employee): Observable<any> {
     return this.httpClient.post<any>(this.baseURL, employee)
       .pipe(

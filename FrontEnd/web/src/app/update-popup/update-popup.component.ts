@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Employee } from '../employee';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Employee } from '../employee';
 
 @Component({
   selector: 'app-update-popup',
@@ -10,8 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./update-popup.component.css']
 })
 export class UpdatePopupComponent {
-
-  updateForm!: FormGroup;
+  updateForm: FormGroup;
   updatedEmployee!: Employee;
 
   constructor(
@@ -20,16 +19,24 @@ export class UpdatePopupComponent {
     private router: Router,
     private fb: FormBuilder
   ) {
+    // Initialize the form with validation
+    this.updateForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dob: ['', Validators.required], // Date type
+      department: ['', Validators.required],
+      salary: ['', [Validators.required, Validators.pattern(/^\d+$/)]]
+    });
+
+    // Populate form fields with employee details if available
     if (data && data.employee) {
       this.updatedEmployee = { ...data.employee };
-
-      // Initialize the form with validation
-      this.updateForm = this.fb.group({
-        firstName: [this.updatedEmployee.firstName, Validators.required],
-        lastName: [this.updatedEmployee.lastName, Validators.required],
-        dob: [this.updatedEmployee.dob, Validators.required], // Keep using the Date type here
-        department: [this.updatedEmployee.department, Validators.required],
-        salary: [this.updatedEmployee.salary, [Validators.required, Validators.pattern(/^\d+$/)]]
+      this.updateForm.patchValue({
+        firstName: this.updatedEmployee.firstName,
+        lastName: this.updatedEmployee.lastName,
+        dob: this.updatedEmployee.dob,
+        department: this.updatedEmployee.department,
+        salary: this.updatedEmployee.salary
       });
     } else {
       console.error('Invalid data format:', data);
@@ -42,6 +49,7 @@ export class UpdatePopupComponent {
 
   onUpdateClick(): void {
     if (this.updateForm.valid) {
+      // Update the updatedEmployee object with form values
       this.updatedEmployee = { ...this.updateForm.value };
 
       // Log the updated employee data
